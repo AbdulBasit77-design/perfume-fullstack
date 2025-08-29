@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Noir \u00c9lite",
+    "brand": "Maison Lune",
+    "description": "Dark amber, oud, vanilla.",
+    "notes": [
+      "amber",
+      "oud",
+      "vanilla"
+    ],
+    "price": 120,
+    "stock": 25,
+    "images": [
+      "/img/noir.jpg"
+    ]
+  },
+  {
+    "name": "Citrus Bloom",
+    "brand": "Aroma Co.",
+    "description": "Grapefruit, bergamot, musk.",
+    "notes": [
+      "grapefruit",
+      "bergamot",
+      "musk"
+    ],
+    "price": 75,
+    "stock": 40,
+    "images": [
+      "/img/citrus.jpg"
+    ]
+  },
+  {
+    "name": "Ocean Mist",
+    "brand": "Azure Parfums",
+    "description": "Sea salt, driftwood, lime.",
+    "notes": [
+      "sea salt",
+      "driftwood",
+      "lime"
+    ],
+    "price": 89,
+    "stock": 35,
+    "images": [
+      "/img/ocean.jpg"
+    ]
+  }
+]
