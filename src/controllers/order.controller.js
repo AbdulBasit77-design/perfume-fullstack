@@ -2,7 +2,7 @@ import Order from '../models/Order.js';
 import Product from '../models/Product.js';
 
 export const createOrder = async (req, res) => {
-  const { items, address, paymentMethod } = req.body;
+  const { items, address, paymentMethod, phone, city, postalCode, province } = req.body;
   if (!items?.length) return res.status(400).json({ message: 'No items' });
   // Calculate total from DB prices to prevent tampering
   const productIds = items.map(i => i.product);
@@ -15,7 +15,18 @@ export const createOrder = async (req, res) => {
     total += price * i.qty;
     return { product: i.product, qty: i.qty, price };
   });
-  const order = await Order.create({ user: req.user._id, items: normalized, total, status: 'pending', address, paymentMethod: paymentMethod || 'cod' });
+  const order = await Order.create({
+    user: req.user._id,
+    items: normalized,
+    total,
+    status: 'pending',
+    address,
+    paymentMethod: paymentMethod || 'cod',
+    phone,
+    city,
+    postalCode,
+    province
+  });
   res.status(201).json(order);
 };
 
@@ -25,7 +36,11 @@ export const myOrders = async (req, res) => {
 };
 
 export const listOrders = async (_req, res) => {
-  const orders = await Order.find().sort({ createdAt: -1 }).populate('user', 'name email').populate('items.product');
+  const orders = await Order
+    .find()
+    .sort({ createdAt: -1 })
+    .populate('user', 'name email role')
+    .populate('items.product');
   res.json(orders);
 };
 
@@ -34,4 +49,10 @@ export const setStatus = async (req, res) => {
   const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true });
   if (!order) return res.status(404).json({ message: 'Order not found' });
   res.json(order);
+};
+
+// Admin-only: Reset sales by deleting all orders
+export const resetOrders = async (_req, res) => {
+  const result = await Order.updateMany({}, { status: 'pending' });
+  res.json({ ok: true, matched: result.matchedCount ?? result.n, modified: result.modifiedCount ?? result.nModified, message: 'All orders set to pending (revenue reset).' });
 };

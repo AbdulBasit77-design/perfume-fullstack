@@ -12,7 +12,11 @@ const orderSchema = new mongoose.Schema({
   total: { type: Number, required: true },
   status: { type: String, enum: ['pending', 'paid', 'shipped', 'delivered'], default: 'pending' },
   address: { type: String, required: true },
-  paymentMethod: { type: String, default: 'cod' }
+  paymentMethod: { type: String, default: 'cod' },
+  phone: { type: String },
+  city: { type: String },
+  postalCode: { type: String },
+  province: { type: String }
 }, { timestamps: true });
 
 export default mongoose.model('Order', orderSchema);
